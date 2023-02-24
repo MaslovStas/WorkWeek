@@ -1,4 +1,4 @@
-from datetime import datetime, date, timedelta, UTC
+from datetime import datetime, date, timedelta, timezone
 
 from flask import render_template, redirect, url_for, flash, abort, request
 from flask_login import login_required, current_user
@@ -87,7 +87,7 @@ def create_record():
     form = RecordForm()
     form.service_id.choices = [(service.id, service.title) for service in current_user.services]
     if form.validate_on_submit():
-        timestamp = datetime.fromisoformat(form.timestamp.data).astimezone(UTC).replace(tzinfo=None)
+        timestamp = datetime.fromisoformat(form.timestamp.data).astimezone(timezone.utc).replace(tzinfo=None)
         service = Service.query.get(form.service_id.data)
         if current_user.is_time_available(timestamp, service):
             record = Record(name=form.name.data, phone=form.phone.data, timestamp=timestamp, service=service)

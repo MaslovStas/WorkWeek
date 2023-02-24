@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, date, time, UTC
+from datetime import datetime, timedelta, date, time, timezone
 from math import ceil
 
 import jwt
@@ -128,13 +128,13 @@ class User(UserMixin, db.Model):
     def from_local_to_utc(local_time: time) -> time:
         """Перевод времени формата time к времени utc для записи в БД"""
         local_date = datetime.combine(date.today(), local_time)
-        utc_time = local_date.astimezone(UTC).time()
+        utc_time = local_date.astimezone(timezone.utc).time()
         return utc_time
 
     @staticmethod
     def from_utc_to_local(utc_time: time) -> time:
         """Перевод времени формата time к локальному времени для веб-отображения"""
-        utc_date = datetime.combine(date.today(), utc_time).replace(tzinfo=UTC)
+        utc_date = datetime.combine(date.today(), utc_time).replace(tzinfo=timezone.utc)
         local_time = utc_date.astimezone().time()
         return local_time
 
