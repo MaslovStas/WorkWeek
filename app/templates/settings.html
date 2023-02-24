@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+<div class="container">
+	<div class="row py-3 text-center">
+		<div class="col-12">
+			<h1 class="mb-3">Мои настройки</h1>
+
+			<table class="table text-start text-white">
+				<thead>
+					<tr>
+						<th scope="col"><i class="bi bi-bookmark-check-fill"></th>
+						<th scope="col"><i class="bi bi-chevron-double-down"></i></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for title, value in settings.items() %}
+					<tr>
+						<td>{{ title }}</td>
+						<td>{{ value }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<p><a class="btn btn-outline-success" href="{{ url_for('main.edit_settings') }}">Редактировать настройки</a></p>
+		</div>
+	</div>
+</div>
+
+{% endblock app_content %}

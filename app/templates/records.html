@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+<div class="container">
+	<div class="row py-3 text-center">
+		<div class="col-12">
+			<h1 class="mb-3">Мои записи</h1>
+
+			<table class="table text-start text-white">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col"><i class="bi bi-bookmark-check-fill"></th>
+						<th scope="col"><i class="bi bi-calendar3"></i></th>
+						<th scope="col"><i class="bi bi-person-circle"></i></th>
+						<th scope="col"><i class="bi bi-phone"></i></th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for record in records %}
+						<tr>
+							<th scope="row">{{ loop.index }}</th>
+							<td>{{ record.service.title }}</td>
+							<td>{{ moment(record.timestamp).format('LLL') }}</td>
+							<td>{{ record.name }}</td>
+							<td>{{ record.phone }}</td>
+							<td>
+								<a href="{{ url_for('main.delete_record', record_id=record.id) }}" title="Отменить запись" data-toggle="tooltip">
+									<i class="bi bi-calendar-x" style="color: red;"></i>
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			
+			<p><a class="btn btn-outline-success" href="{{ url_for('main.create_record') }}">Добавить запись</a></p>
+		</div>
+	</div>
+</div>
+
+{% endblock app_content %}

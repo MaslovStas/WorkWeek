@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<h1 class="my-3 text-center">Изменение настроек</h1>
+		</div>
+	</div>
+
+
+	<div class="row justify-content-center">
+		<div class="col-sm-12 col-md-4 pt-3">
+
+			<form action="" method="post">
+				{{ form.hidden_tag() }}
+
+				{% for field in form if field.name not in ['csrf_token', 'submit'] %}
+				<div class="mb-3">
+					{{ field.label(class='form-label') }}<br>
+					{{ field(class='form-control') }}<br>
+
+					{% for error in field.errors %}
+					<span style="color: red;">{{ error }}</span>
+					{% endfor %}
+				</div>
+				{% endfor %}
+
+				<div class="text-center mb-3">{{ form.submit(class="btn btn-primary") }}</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+{% endblock app_content %}

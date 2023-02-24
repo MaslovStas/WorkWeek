@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<h1 class="my-3 text-center">Мои выходные</h1>
+		</div>
+	</div>
+
+	<div class="row py-3 text-center justify-content-center">
+		<div class="col-sm-12 col-md-4">
+			<table class="table text-start text-white">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col"><i class="bi bi-calendar3"></i></th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for weekend in weekends %}
+						<tr>
+							<th scope="row">{{ loop.index }}</th>
+							<td>{{ moment(weekend.date).format('DD.MM.YY, dddd') }}</td>
+							<td>
+								<a href="{{ url_for('main.delete_weekend', weekend_id=weekend.id) }}" title="Отменить выходной" data-toggle="tooltip">
+									<i class="bi bi-calendar-x" style="color: red;"></i>
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<p class="text-center"><a class="btn btn-primary" href="{{ url_for('main.create_weekends') }}">Добавить выходные</a></>
+
+</div>
+
+{% endblock app_content %}

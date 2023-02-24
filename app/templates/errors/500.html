@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block navbar %}{% endblock navbar %}
+
+{% block content %}
+
+<div class="container">
+	<div class="row pt-3 text-center">
+		<div class="col-12">
+			<h1 class="mb-3">Возникла ошибка </h1>
+			<p>Администатор уже уведомлен. Приносим извининения за неудобства!</p>
+			<hr>
+			<p><a href="{{ url_for('main.index') }}">Вернуться на главную</a></p>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

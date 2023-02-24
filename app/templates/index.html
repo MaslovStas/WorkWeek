@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+<div class="container">
+	<div class="row pt-3 text-center">
+		<div class="col-12">
+			<h1>Система для автоматизации онлайн-записей</h1>
+				<p>Веб-страница для самостоятельного бронирования услуг клиентами 24/7.</p>
+				{% if current_user.is_anonymous %}
+					<a class="btn btn-outline-success" href="{{ url_for('auth.register') }}">Регистрация</a>
+				{% endif %}
+		</div>
+	</div>
+</div>
+
+{% endblock app_content %}

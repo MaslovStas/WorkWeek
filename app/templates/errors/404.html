@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block navbar %}{% endblock navbar %}
+
+{% block content %}
+
+<div class="container">
+	<div class="row pt-3 text-center">
+		<div class="col-12">
+			<h1 class="mb-3">404 - Страница не найдена :(</h1>
+			<hr>
+			<p><a href="{{ url_for('main.index') }}">Вернуться на главную</a></p>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

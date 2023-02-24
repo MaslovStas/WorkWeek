@@ -1,0 +1,41 @@
+ul {
+	list-style: none;
+}
+
+h1,
+h2,
+h5,
+hr {
+	color: white;
+}
+
+i {
+	color: yellow;
+}
+
+p {
+	color: gray;
+}
+
+body {
+	background-color: black;
+}
+
+.calendar_time {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+
+
+/* .time {
+	height: 30px;
+	padding: 0 !important;
+}
+
+.time1 {
+	position: relative;
+	bottom: 32%;
+} */

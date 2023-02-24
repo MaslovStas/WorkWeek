@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block navbar %}{% endblock navbar %}
+
+{% block app_content %}
+
+--amount_of_days: 7
+
+<div class="container">
+
+	<div class="row text-center">
+		<div class="col-12">
+			<h2 class="my-3">Выберите дату и время</h2>
+		</div>
+	</div>
+
+	<div class="row text-center">
+		<div class="col-md-6 offset-md-3 mb-3">
+			<input type="text" id="datepicker" class="form-control text-center" placeholder="Выберите дату">
+		</div>
+	</div>
+
+	<div class="row text-center">
+		<div class="col-md-6 offset-md-3">
+			<form action="" method="POST">
+				{{ form.hidden_tag() }}
+				<div id="time" class="calendar_time"></div>
+				<p>{{ form.submit(class="btn btn-warning") }}</p>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock app_content %}
+
+{% block scripts %}
+{{ super() }}
+
+<script>
+	// Делаем кнопку неактивной
+	document.querySelector('#submit').disabled = true;
+	// Получаем service_id из адреса сайта и сохраням блок с списком времени
+	const service_id = window.location.pathname.split('/')[2];
+	const elementTime = document.querySelector('#time');
+
+	function createDictTime(obj) {
+		arr = [];
+		for (time of obj) {
+			let timestamp = new Date(time);
+			arr.push({
+				'label': timestamp.toLocaleTimeString('ru-RU', { hour12: false, timeStyle: 'short' }),
+				'value': timestamp.toISOString()
+			});
+		}
+		return arr;
+	}
+
+	function changeForm(obj) {
+		document.querySelector('#submit').disabled = true;
+
+		let content = '';
+		obj.forEach(function (item, index) {
+			content += `<input type="radio" id="timeChoice${index}" name="radio" value="${item["value"]}"
+									onclick="document.querySelector('#submit').disabled=false" class="btn-check" autocomplete="off">
+									<label class="btn btn-outline-success" for="timeChoice${index}">${item["label"]}</label>`
+		});
+		elementTime.innerHTML = content;
+	}
+
+	new AirDatepicker('#datepicker', {
+		isMobile: true,
+		autoClose: true,
+		minDate: new Date(),
+		// Маскимальная дата ограничена настройками прльзователя
+		maxDate: (new Date()).setDate(new Date().getDate() + {{ amount_of_days|tojson|safe }}),
+		dateFormat: 'yyyy-MM-dd',
+		onSelect({ formattedDate }) {
+			if (formattedDate) {
+				fetch("{{ url_for('.getting_time') }}", {
+					method: 'POST',
+					body: JSON.stringify({ date: formattedDate, service_id: service_id })
+				})
+					.then(response => {
+						if (!response.ok) {
+							throw new Error('Нет связи с сервером');
+						}
+						return response.json();
+					}).then(responseJson => {
+						let list = createDictTime(responseJson['time']);
+						changeForm(list);
+					}).catch((error) => {
+						document.querySelector('#time').outerHTML = `<p>${error}</p>`;
+					})
+			}
+		}
+	})
+</script>
+{% endblock scripts %}
