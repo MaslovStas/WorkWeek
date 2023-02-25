@@ -95,7 +95,7 @@ class User(UserMixin, db.Model):
 
     def is_time_available(self, checked_time: datetime, service) -> bool:
         """Проверка свободно ли время для записи непосредственно перед записью в БД"""
-        start_of_the_interval = datetime.combine(checked_time.date(), time(hour=current_app.config['START_OF_THE_DAY']))
+        start_of_the_interval = datetime.combine(checked_time.date(), self.begin_of_the_day)
         timestamps = self._date_timestamps(start_of_the_interval)
         # Идея в том, чтобы пройти по отметкам в попытках впихнуть момент времени записи с длительностью услуги
         for i in range(0, len(timestamps), 2):

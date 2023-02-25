@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TimeField
 from wtforms.validators import DataRequired, EqualTo, Email, ValidationError
 
 from app.models import User
@@ -15,6 +15,9 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    begin_of_the_day = TimeField('Начало дня', [DataRequired()])
+    end_of_the_day = TimeField('Конец дня', [DataRequired()])
+    amount_of_days = StringField('Количество дней доступных для резервирования', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Зарегистрироваться')

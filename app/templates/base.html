@@ -90,7 +90,8 @@
 		let active_link = document.querySelector('nav a[href="' + curpath + '"]');
 		if (active_link) { active_link.className += ' active'; }
 		else {
-			document.querySelector('nav a').className += ' active';
+			active_link = document.querySelector('nav a')
+			if (active_link) { active_link.className += ' active'; }
 		}
 	</script>
 	{% endblock scripts %}
