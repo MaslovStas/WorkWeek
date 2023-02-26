@@ -55,7 +55,7 @@ def confirm(service_id):
         flash(message='Пожалуйста, выберите время', category='warning')
         return redirect(url_for('.choose_date', service_id=service_id))
 
-    timestamp = datetime.fromisoformat(session['time']).replace(tzinfo=None)
+    timestamp = datetime.strptime(session['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
     service = Service.query.get_or_404(service_id)
     form = ConfirmInformation()
     if form.validate_on_submit():
