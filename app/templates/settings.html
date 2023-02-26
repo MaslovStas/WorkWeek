@@ -15,12 +15,22 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for title, value in settings.items() %}
 					<tr>
-						<td>{{ title }}</td>
-						<td>{{ value }}</td>
+						<td>Начало дня</td>
+						<td>{{ moment(begin_of_the_day).format('LT') }}</td>
 					</tr>
-					{% endfor %}
+					<tr>
+						<td>Конец дня</td>
+						<td>{{ moment(end_of_the_day).format('LT') }}</td>
+					</tr>
+					<tr>
+						<td>Количество дней доступных для резервирования</td>
+						<td>{{ current_user.amount_of_days }}</td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td>{{ current_user.email }}</td>
+					</tr>
 				</tbody>
 			</table>
 			<p><a class="btn btn-outline-success" href="{{ url_for('main.edit_settings') }}">Редактировать настройки</a></p>

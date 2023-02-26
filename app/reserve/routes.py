@@ -46,7 +46,6 @@ def getting_time():
     if search_date and service_id:
         service = Service.query.get(service_id)
         timestamps = service.user.available_time(date.fromisoformat(search_date), service)
-        print(timestamps)
     return jsonify({'time': timestamps})
 
 

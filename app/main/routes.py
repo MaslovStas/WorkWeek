@@ -6,7 +6,7 @@ from flask_login import login_required, current_user
 from app import db
 from app.main import bp
 from app.main.forms import ServiceForm, RecordForm, WeekendForm, EditingProfile
-from app.models import Service, Record, Weekend, User
+from app.models import Service, Record, Weekend
 
 
 @bp.route('/')
@@ -155,13 +155,9 @@ def delete_weekend(weekend_id):
 @bp.route('/settings')
 @login_required
 def settings():
-    return render_template('settings.html',
-                           title='Мои записи',
-                           settings={
-                               'Начало дня': User.from_utc_to_local(current_user.begin_of_the_day).strftime('%H:%M'),
-                               'Конец дня': User.from_utc_to_local(current_user.end_of_the_day).strftime('%H:%M'),
-                               'Число дней доступных для резервирования': current_user.amount_of_days,
-                               'Email': current_user.email})
+    return render_template('settings.html', title='Мои записи',
+                           begin_of_the_day=datetime.combine(date.today(), current_user.begin_of_the_day),
+                           end_of_the_day=datetime.combine(date.today(), current_user.end_of_the_day))
 
 
 @bp.route('/settings/edit_settings', methods=['POST', 'GET'])
@@ -169,16 +165,16 @@ def settings():
 def edit_settings():
     form = EditingProfile(current_user.email)
     if form.validate_on_submit():
-        current_user.begin_of_the_day = User.from_local_to_utc(form.begin_of_the_day.data)
-        current_user.end_of_the_day = User.from_local_to_utc(form.end_of_the_day.data)
+        current_user.begin_of_the_day = form.begin_of_the_day.data
+        current_user.end_of_the_day = form.end_of_the_day.data
         current_user.amount_of_days = form.amount_of_days.data
         current_user.email = form.email.data
         db.session.commit()
         flash(message='Настройки успешно сохранены', category='success')
         return redirect(url_for('.settings'))
     elif request.method == 'GET':
-        form.begin_of_the_day.data = User.from_utc_to_local(current_user.begin_of_the_day)
-        form.end_of_the_day.data = User.from_utc_to_local(current_user.end_of_the_day)
         form.amount_of_days.data = current_user.amount_of_days
         form.email.data = current_user.email
-    return render_template('edit_settings.html', title='Изменение настроек', form=form)
+    return render_template('edit_settings.html', title='Изменение настроек', form=form,
+                           begin_of_the_day=datetime.combine(date.today(), current_user.begin_of_the_day),
+                           end_of_the_day=datetime.combine(date.today(), current_user.end_of_the_day))

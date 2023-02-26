@@ -9,7 +9,8 @@
 			<p class="text-center">Скопируйте ссылку, чтобы поделиться
 				<a href="{{ url_for('reserve.choose_service', user_id=current_user.id) }}" id="link_copy">
 					{{ url_for('reserve.choose_service', user_id=current_user.id, _external=True) }}</a>
-				<button class="btn" title="Нажмите, чтобы скопировать ссылку" onclick="copyLinkToClipboard()" data-toggle="tooltip">
+				<button class="btn" title="Нажмите, чтобы скопировать ссылку" onclick="copyLinkToClipboard()"
+					data-toggle="tooltip">
 					<i class="bi bi-clipboard2" id='i-link' style="color: white;"></i>
 				</button>
 			</p>
@@ -19,13 +20,16 @@
 				<li class="mb-0 p-0 alert alert-dismissible text-start">
 					<h5>{{ service.title }}</h5>
 					{% if service.description %}
-						<p>{{ service.description }}</p>
+					<p>{{ service.description }}</p>
 					{% endif %}
 					<p>
-						<i class="bi bi-clock"></i> {{ service.str_duration }} <i class="bi bi-wallet2"></i> {{ service.price }} грн.
+						<i class="bi bi-clock"></i> {{ service.str_duration }} <i class="bi bi-wallet2" </i> {{ service.price }}
+							грн.
 					</p>
-					<a class="btn btn-outline-success" href="{{ url_for('main.update_service', service_id=service.id) }}">Редактировать</a>
-					<a class="btn btn-outline-danger" href="{{ url_for('main.delete_service', service_id=service.id) }}">Удалить</a>
+					<a class="btn btn-outline-success"
+						href="{{ url_for('main.update_service', service_id=service.id) }}">Редактировать</a>
+					<a class="btn btn-outline-danger"
+						href="{{ url_for('main.delete_service', service_id=service.id) }}">Удалить</a>
 					<hr>
 				</li>
 				{% endfor %}
@@ -43,8 +47,8 @@
 
 <script>
 	function copyLinkToClipboard() {
-		link_text = document.getElementById('link_copy').innerText;
-		navigator.clipboard.writeText(link_text);
+		navigator.clipboard.writeText(document.getElementById('link_copy').innerText);
+		document.getElementById('i-link').className = 'bi bi-check';
 	}
 </script>
 

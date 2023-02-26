@@ -42,9 +42,10 @@ def register():
 
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data,
-                    begin_of_the_day=User.from_local_to_utc(form.begin_of_the_day.data),
-                    end_of_the_day=User.from_local_to_utc(form.end_of_the_day.data),
+        user = User(username=form.username.data,
+                    email=form.email.data,
+                    begin_of_the_day=form.begin_of_the_day.data,
+                    end_of_the_day=form.end_of_the_day.data,
                     amount_of_days=form.amount_of_days.data)
         user.set_password(form.password.data)
         db.session.add(user)

@@ -15,8 +15,8 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    begin_of_the_day = TimeField('Начало дня', [DataRequired()])
-    end_of_the_day = TimeField('Конец дня', [DataRequired()])
+    begin_of_the_day = TimeField('Начало дня', [DataRequired()], id='begin_of_the_day')
+    end_of_the_day = TimeField('Конец дня', [DataRequired()], id='end_of_the_day')
     amount_of_days = StringField('Количество дней доступных для резервирования', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')])

@@ -8,7 +8,6 @@
 		</div>
 	</div>
 
-
 	<div class="row justify-content-center">
 		<div class="col-sm-12 col-md-4 pt-3">
 
@@ -18,8 +17,8 @@
 				{% for field in form if field.name not in ['csrf_token', 'submit'] %}
 				<div class="mb-3">
 					{{ field.label(class='form-label') }}<br>
-					{{ field(class='form-control') }}<br>
-
+					{{ field(class='form-control')}}<br>
+					<!-- Ошибки -->
 					{% for error in field.errors %}
 					<span style="color: red;">{{ error }}</span>
 					{% endfor %}
@@ -28,9 +27,20 @@
 
 				<div class="text-center mb-3">{{ form.submit(class="btn btn-primary") }}</div>
 			</form>
-
 		</div>
 	</div>
 </div>
 
 {% endblock app_content %}
+
+{% block scripts %}
+{{ super() }}
+
+<script src="{{ url_for('static', filename='js/from-local-to-UTC.js') }}"></script>
+
+<script>
+	document.getElementById('begin_of_the_day').value = moment({{ begin_of_the_day| tojson | safe }}).format('HH:mm');
+	document.getElementById('end_of_the_day').value = moment({{ end_of_the_day| tojson | safe }}).format('HH:mm');
+</script>
+
+{% endblock scripts %}

@@ -4,8 +4,9 @@
 <div class="container">
 
 	<div class="row pt-3">
-		<div class="col-12">
-			<h1 class="text-center">Регистрация</h1>
+		<div class="col-12 text-center">
+			<h1>Регистрация</h1>
+			<p id="timezone"></p>
 		</div>
 	</div>
 
@@ -13,13 +14,13 @@
 		<div class="col-sm-12 col-md-4">
 			<form action="" method="post">
 				{{ form.hidden_tag() }}
-			
+
 				{% for field in form if field.name not in ['csrf_token', 'submit'] %}
-			
+
 				<div class="mb-3">
 					{{ field.label(class="form-label") }}<br>
 					{{ field(class='form-control') }}<br>
-			
+
 					{% for error in field.errors %}
 					<span style="color: red;">{{ error }}</span>
 					{% endfor %}
@@ -33,3 +34,10 @@
 </div>
 
 {% endblock app_content %}
+
+{% block scripts %}
+{{ super() }}
+
+<script src="{{ url_for('static', filename='js/from-local-to-UTC.js') }}"></script>
+
+{% endblock scripts %}
