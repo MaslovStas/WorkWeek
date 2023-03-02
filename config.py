@@ -10,10 +10,10 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
     # SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
-    #     username="root",
+    #     username="StasyanD",
     #     password="DINAMOARIA330",
-    #     hostname="localhost",
-    #     databasename="workweek",
+    #     hostname="StasyanD.mysql.pythonanywhere-services.com",
+    #     databasename="StasyanD$Workweek",
     # )
     SQLALCHEMY_TRACK_MODIFICATION = False
     SQLALCHEMY_POOL_RECYCLE = 299  # For PythonAnywhere
