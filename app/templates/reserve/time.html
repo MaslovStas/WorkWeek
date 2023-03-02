@@ -4,30 +4,28 @@
 
 {% block app_content %}
 
-<div class="container">
+<section>
+	<div class="form-box">
+		<div class="form-value">
 
-	<div class="row text-center">
-		<div class="col-12">
-			<h2 class="my-3">Выберите дату и время</h2>
-		</div>
-	</div>
-
-	<div class="row text-center">
-		<div class="col-md-6 offset-md-3 mb-3">
-			<input type="text" id="datepicker" class="form-control text-center" placeholder="Выберите дату">
-		</div>
-	</div>
-
-	<div class="row text-center">
-		<div class="col-md-6 offset-md-3">
-			<form action="" method="POST">
+			<form action="" method="post">
 				{{ form.hidden_tag() }}
+
+				<h2>Выберите дату<br>и время</h2>
+				<!-- Date -->
+				<div class="inputbox">
+					<i class="bi bi-calendar"></i>
+					<input type="text" id="datepicker" placeholder="Нажмите, чтобы выбрать дату">
+				</div>
+				<!-- Time -->
+				<p id="text" class="text-center"></p>
 				<div id="time" class="calendar_time"></div>
-				<p>{{ form.submit(class="btn btn-warning") }}</p>
+				<!-- Submit -->
+				<p class="text-center">{{ form.submit(class="btn btn-outline-warning my-button") }}</p>
 			</form>
 		</div>
 	</div>
-</div>
+</section>
 
 {% endblock app_content %}
 
@@ -39,6 +37,7 @@
 	document.querySelector('#submit').disabled = true;
 	// Получаем service_id из адреса сайта и сохраням блок с списком времени
 	const service_id = window.location.pathname.split('/')[2];
+	const elementText = document.querySelector('#text');
 	const elementTime = document.querySelector('#time');
 
 	function createDictTime(obj) {
@@ -53,9 +52,10 @@
 		return arr;
 	}
 
-	function changeForm(obj) {
+	function changeTime(obj) {
+		// Каждый раз делаем кнопку неактивной
 		document.querySelector('#submit').disabled = true;
-
+		// Создаем список input и label
 		let content = '';
 		obj.forEach(function (item, index) {
 			content += `<input type="radio" id="timeChoice${index}" name="radio" value="${item["value"]}"
@@ -69,7 +69,7 @@
 		isMobile: true,
 		autoClose: true,
 		minDate: new Date(),
-		// Маскимальная дата ограничена настройками прльзователя
+		// Маскимальная дата ограничена настройками пользователя
 		maxDate: (new Date()).setDate(new Date().getDate() + {{ amount_of_days| tojson | safe }}),
 		dateFormat: 'yyyy-MM-dd',
 			onSelect({ formattedDate }) {
@@ -84,14 +84,21 @@
 					}
 					return response.json();
 				}).then(responseJson => {
-					let list = createDictTime(responseJson['time']);
-					changeForm(list);
+					let list_time = createDictTime(responseJson['time']);
+					changeTime(list_time);
+
+					if (list_time.length==0) {
+						elementText.innerHTML = 'В этот день свободных мест нет';
+					}
+					else {
+						elementText.innerHTML = 'На этот день доступно следующее время:';
+					}
 				}).catch((error) => {
-					document.querySelector('#time').outerHTML = `<p>${error}</p>`;
+					elementText.innerHTML = `${error}`;
 				})
 		}
 	}
 	})
-	
+
 </script>
 {% endblock scripts %}

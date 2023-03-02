@@ -1,26 +1,24 @@
+body {
+	background-color: black;
+}
+
 ul {
 	list-style: none;
 }
 
 h1,
 h2,
-h5,
+i {
+	color: var(--bs-warning);
+}
+
+h4,
+p,
 hr {
 	color: white;
 }
 
-i {
-	color: yellow;
-}
-
-p {
-	color: gray;
-}
-
-body {
-	background-color: black;
-}
-
+/* Выбор времени */
 .calendar_time {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
@@ -28,14 +26,16 @@ body {
 	margin-bottom: 20px;
 }
 
-
-
-/* .time {
-	height: 30px;
-	padding: 0 !important;
+/* Сообщения об ошибке в формах */
+.error {
+	display: block;
+	margin-top: -30px;
+	color: red;
+	text-align: center;
 }
 
-.time1 {
-	position: relative;
-	bottom: 32%;
-} */
+/* Ссылки в nav панели */
+a.nav-link {
+	color: black;
+	font-weight: 500;
+}

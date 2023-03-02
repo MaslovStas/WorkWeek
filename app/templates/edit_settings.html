@@ -1,7 +1,50 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
-<div class="container">
+
+<section>
+	<div class="form-box">
+		<div class="form-value">
+
+			<form action="" method="post">
+				{{ form.hidden_tag() }}
+
+				<h2>Редактирование<br>настроек</h2>
+				
+				<!-- Email -->
+				<div class=" inputbox">
+					<i class="bi bi-envelope"></i>
+					{{ form.email() }}
+					{{ form.email.label }}
+				</div>
+
+				{% for error in form.email.errors %}
+					<span class="error">{{ error }}</span>
+				{% endfor %}
+				<!-- Begin of the day -->
+				<div class="inputbox">
+					{{ form.begin_of_the_day() }}
+					{{ form.begin_of_the_day.label(class="time") }}
+				</div>
+				<!-- End of the day -->
+				<div class="inputbox">
+					{{ form.end_of_the_day() }}
+					{{ form.end_of_the_day.label(class="time") }}
+				</div>
+				<!-- Amount of days -->
+				<div class="inputbox">
+					<i class="bi bi-calendar2-check"></i>
+					{{ form.amount_of_days() }}
+					{{ form.amount_of_days.label }}
+				</div>
+				<!-- Submit -->
+				<p class="text-center">{{ form.submit(class="btn btn-outline-warning") }}</p>
+			</form>
+		</div>
+	</div>
+</section>
+
+<!-- <div class="container">
 	<div class="row">
 		<div class="col-12">
 			<h1 class="my-3 text-center">Изменение настроек</h1>
@@ -18,7 +61,7 @@
 				<div class="mb-3">
 					{{ field.label(class='form-label') }}<br>
 					{{ field(class='form-control')}}<br>
-					<!-- Ошибки -->
+
 					{% for error in field.errors %}
 					<span style="color: red;">{{ error }}</span>
 					{% endfor %}
@@ -29,7 +72,7 @@
 			</form>
 		</div>
 	</div>
-</div>
+</div> -->
 
 {% endblock app_content %}
 

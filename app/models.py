@@ -62,7 +62,7 @@ class User(UserMixin, db.Model):
         # если не сегодня или сегодня, но до начала рабочего дня
         return datetime.combine(search_date, self.begin_of_the_day)
 
-    def _date_timestamps(self, start_of_the_interval: datetime) -> list:
+    def _all_timestamps_of_the_date(self, start_of_the_interval: datetime) -> list:
         """Список всех временных отметок выбранной даты в хронологическом порядке, включая начало дня, конец дня, а
         также начало и конец всех записей в этот день начиная с указанного момента времени"""
         if start_of_the_interval is None:
@@ -82,7 +82,7 @@ class User(UserMixin, db.Model):
 
     def available_time(self, search_date: date, service) -> list:
         """Список отметок времени доступных для записи с учетом длительности услуги"""
-        timestamps = self._date_timestamps(self.getting_start_of_the_interval(search_date))
+        timestamps = self._all_timestamps_of_the_date(self.getting_start_of_the_interval(search_date))
         # Идея в том, чтобы двигаться от момента времени на нечетной позиции к моменту с четной позицией
         res = []
         for i in range(0, len(timestamps), 2):
@@ -96,7 +96,7 @@ class User(UserMixin, db.Model):
     def is_time_available(self, checked_time: datetime, service) -> bool:
         """Проверка свободно ли время для записи непосредственно перед записью в БД"""
         start_of_the_interval = datetime.combine(checked_time.date(), self.begin_of_the_day)
-        timestamps = self._date_timestamps(start_of_the_interval)
+        timestamps = self._all_timestamps_of_the_date(start_of_the_interval)
         # Идея в том, чтобы пройти по отметкам в попытках впихнуть момент времени записи с длительностью услуги
         for i in range(0, len(timestamps), 2):
             begin, end = timestamps[i], timestamps[i + 1]

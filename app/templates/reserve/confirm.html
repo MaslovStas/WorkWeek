@@ -4,37 +4,43 @@
 
 {% block app_content %}
 
-<div class="container">
-
-	<div class="row">
-		<div class="col-12">
-			<h2 class="my-3 text-center">Заполните информацию</h2>
-		</div>
-	</div>
-
-	<div class="row justify-content-center text-center">
-		<div class="col-sm-12 col-lg-6">
-			<h5 class="text-sm-start">{{ service.title }}</h5>
-			<p class="text-start">
-				<i class="bi bi-clock"></i> {{ moment(time).format('DD.MM в HH:mm') }} ({{ service.str_duration }})
-				<i class="bi bi-wallet2"></i> {{ service.price }} грн.
-			</p>
-			<hr>
+<section>
+	<div class="form-box">
+		<div class="form-value">
 
 			<form action="" method="post">
 				{{ form.hidden_tag() }}
 
-				{% for field in form if field.name not in ['csrf_token', 'submit'] %}
-					<p>{{ field(class="form-control", placeholder=field.label.text) }}</p>
-					{% for error in field.errors %}
-						<span style="color: red;">{{ error }}</span>
-					{% endfor %}
-				{% endfor %}
+				<h2 class="mb-4">Подтверждение</h2>
+				<h4 class="text-sm-start">{{ service.title }}</h4>
+				<p class="text-start border-bottom border-2">
+					<i class="bi bi-clock"></i> {{ moment(time).format('DD.MM в HH:mm') }} ({{ service.str_duration }})
+					<i class="bi bi-wallet2"></i> {{ service.price }} грн.
+				</p>
+				<!-- Name -->
+				<div class="inputbox">
+					<i class="bi bi-person"></i>
+					{{ form.name() }}
+					{{ form.name.label }}
+				</div>
 
-				<p>{{ form.submit(class="btn btn-warning") }}</p>
+				{% for error in form.name.errors %}
+				<span class="error">{{ error }}</span>
+				{% endfor %}
+				<!-- Phone -->
+				<div class="inputbox">
+					<i class="bi bi-phone"></i>
+					{{ form.phone() }}
+					{{ form.phone.label }}
+				</div>
+				{% for error in form.phone.errors %}
+				<span class="error">{{ error }}</span>
+				{% endfor %}
+				<!-- Submit -->
+				<p class="text-center">{{ form.submit(class="btn btn-outline-warning") }}</p>
 			</form>
 		</div>
 	</div>
+</section>
 
-</div>
 {% endblock app_content %}

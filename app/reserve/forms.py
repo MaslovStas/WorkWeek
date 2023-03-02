@@ -5,12 +5,12 @@ from wtforms.validators import DataRequired, Length, ValidationError
 
 class ChooseService(FlaskForm):
     radio = RadioField(validators=[DataRequired()])
-    submit = SubmitField('Выбрать')
+    submit = SubmitField('Далее')
 
 
 class ConfirmInformation(FlaskForm):
-    phone = StringField('0XXXXXXXXX', validators=[DataRequired(), Length(min=10, max=10)])
     name = StringField('Имя', validators=[DataRequired()])
+    phone = StringField('Телефон', validators=[DataRequired(), Length(min=10, max=10)])
     submit = SubmitField('Оформить запись')
 
     def validate_phone(self, phone):

@@ -6,19 +6,20 @@
 	<div class="row py-3 text-center">
 		<div class="col-12">
 			<h1 class="mb-3">Сервис</h1>
-			<p class="text-center">Скопируйте ссылку, чтобы поделиться
+			<p class="text-center mb-1">Скопируйте ссылку, чтобы поделиться</p>
+			<div>
 				<a href="{{ url_for('reserve.choose_service', user_id=current_user.id) }}" id="link_copy">
 					{{ url_for('reserve.choose_service', user_id=current_user.id, _external=True) }}</a>
 				<button class="btn" title="Нажмите, чтобы скопировать ссылку" onclick="copyLinkToClipboard()"
 					data-toggle="tooltip">
 					<i class="bi bi-clipboard2" id='i-link' style="color: white;"></i>
 				</button>
-			</p>
+			</div>
 
 			<ul>
 				{% for service in services %}
 				<li class="mb-0 p-0 alert alert-dismissible text-start">
-					<h5>{{ service.title }}</h5>
+					<h4>{{ service.title }}</h4>
 					{% if service.description %}
 					<p>{{ service.description }}</p>
 					{% endif %}
@@ -35,7 +36,7 @@
 				{% endfor %}
 			</ul>
 
-			<a class="btn btn-primary" href="{{ url_for('main.create_service') }}">Добавить услугу</a>
+			<a class="btn btn-outline-success" href="{{ url_for('main.create_service') }}">Добавить услугу</a>
 		</div>
 	</div>
 </div>

@@ -6,20 +6,21 @@ from app.models import User
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Имя пользователя', validators=[DataRequired()])
+    username = StringField('Имя', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Имя пользователя', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    begin_of_the_day = TimeField('Начало дня', [DataRequired()], id='begin_of_the_day')
-    end_of_the_day = TimeField('Конец дня', [DataRequired()], id='end_of_the_day')
-    amount_of_days = StringField('Количество дней доступных для резервирования', validators=[DataRequired()])
+    username = StringField('Имя', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email('Неверный формат почты')])
+    begin_of_the_day = TimeField('Начало рабочего дня', [DataRequired()], id='begin_of_the_day')
+    end_of_the_day = TimeField('Конец рабочего дня', [DataRequired()], id='end_of_the_day')
+    amount_of_days = StringField('На сколько дней открыта запись', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
-    password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')])
+    password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password',
+                                                                                      'Пароли должны совпадать')])
     submit = SubmitField('Зарегистрироваться')
 
     def validate_username(self, username):

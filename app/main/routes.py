@@ -50,6 +50,7 @@ def update_service(service_id):
         service.title = form.title.data
         service.duration = timedelta(minutes=int(form.duration.data))
         service.price = form.price.data
+        service.description = form.description.data
         db.session.commit()
         flash(message='Изменения успешно сохранены', category='success')
         return redirect(url_for('.services'))
@@ -89,13 +90,11 @@ def create_record():
     if form.validate_on_submit():
         timestamp = datetime.fromisoformat(form.timestamp.data).astimezone(timezone.utc).replace(tzinfo=None)
         service = Service.query.get(form.service_id.data)
-        if current_user.is_time_available(timestamp, service):
-            record = Record(name=form.name.data, phone=form.phone.data, timestamp=timestamp, service=service)
-            db.session.add(record)
-            db.session.commit()
-            flash(message='Запись успешно создана', category='success')
-            return redirect(url_for('.records'))
-        flash(message='Это время уже занято', category='warning')
+        record = Record(name=form.name.data, phone=form.phone.data, timestamp=timestamp, service=service)
+        db.session.add(record)
+        db.session.commit()
+        flash(message='Запись успешно создана', category='success')
+        return redirect(url_for('.records'))
 
     return render_template('create_record.html', title='Создание записи', form=form)
 

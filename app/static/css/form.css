@@ -1,0 +1,123 @@
+section {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin: 30px;
+}
+
+.form-box {
+	position: relative;
+	padding: 30px;
+	background: transparent;
+	border: 2px solid rgba(255, 238, 0, 0.5);
+	border-radius: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+h2 {
+	font-size: 2em;
+	color: yellow;
+	text-align: center;
+}
+
+.inputbox {
+	position: relative;
+	margin: 30px 0;
+	width: 310px;
+	border-bottom: 2px solid #fff;
+	color: #fff;
+}
+
+.inputbox label {
+	position: absolute;
+	left: 5px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: yellow;
+	font-size: 1em;
+	pointer-events: none;
+	transition: .5s;
+}
+
+input:focus~label,
+input:valid~label,
+input:-webkit-autofill~label {
+	top: -5px;
+}
+
+input:-webkit-autofill {
+	transition: all 5000s ease-in-out 0s;
+	-webkit-font-feature-settings: inherit;
+}
+
+.inputbox input {
+	width: 100%;
+	height: 50px;
+	background: transparent;
+	border: none;
+	outline: none;
+	padding: 0 35px 0 5px;
+	font-size: 1em;
+	color: #fff;
+}
+
+.inputbox i {
+	position: absolute;
+	right: 8px;
+	color: #fff;
+	font-size: 1.2em;
+	top: 10px;
+}
+
+.remeber {
+	margin: -15px 0 15px;
+	font-size: 0.9em;
+	color: #fff;
+}
+
+.remeber input {
+	margin-right: 3px;
+}
+
+.register {
+	font-size: 0.9em;
+	margin: 25px 0 10px;
+}
+
+.register p a {
+	text-decoration: none;
+	color: #fff;
+	font-weight: 600;
+}
+
+.register p {
+	color: #fff;
+}
+
+.register p a:hover {
+	text-decoration: underline;
+	color: yellow;
+}
+
+::-webkit-calendar-picker-indicator {
+	filter: invert(1);
+	margin-right: -30px;
+	font-size: 1.2em;
+}
+
+::placeholder {
+	color: #fff;
+	font-size: 0.9em;
+}
+
+textarea::placeholder {
+	color: var(--bs-warning) !important;
+	font-size: 1em;
+}
+
+.time {
+	top: -5px !important;
+}
