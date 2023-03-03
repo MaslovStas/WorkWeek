@@ -27,8 +27,8 @@ class WeekendForm(FlaskForm):
 
 
 class EditingProfile(FlaskForm):
-    begin_of_the_day = TimeField('Начало дня', [DataRequired()], id='begin_of_the_day')
-    end_of_the_day = TimeField('Конец дня', [DataRequired()], id='end_of_the_day')
+    begin_of_the_day = TimeField('Начало дня', [DataRequired()])
+    end_of_the_day = TimeField('Конец дня', [DataRequired()])
     amount_of_days = StringField('На сколько дней открыта запись', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Сохранить')

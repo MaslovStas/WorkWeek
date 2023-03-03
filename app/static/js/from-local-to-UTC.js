@@ -5,14 +5,11 @@
 function fromLocalToUtc(elements) {
 	elements.forEach(function (item) {
 		let list_time = item.value.split(':');
-		let hour = list_time[0];
-		let minute = list_time[1];
-		item.value = moment().set({ 'hour': hour, 'minute': minute }).utc().format('HH:mm');
+		item.value = moment().set({ 'hour': list_time[0], 'minute': list_time[1] }).utc().format('HH:mm');
 	});
 }
 // Во время обработки формы происходит перевод времени в UTC
 let form = document.querySelector("form");
 form.addEventListener("submit", function (event) {
-	fromLocalToUtc([document.getElementById('begin_of_the_day'), document.getElementById('end_of_the_day')])
-	console.log([document.getElementById('begin_of_the_day'), document.getElementById('end_of_the_day')]);
+	fromLocalToUtc([document.getElementById('begin_of_the_day'), document.getElementById('end_of_the_day')]);
 });

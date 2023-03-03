@@ -1,4 +1,4 @@
-from datetime import datetime, date, timedelta, timezone
+from datetime import datetime, date, timedelta
 
 from flask import render_template, redirect, url_for, flash, abort, request
 from flask_login import login_required, current_user
@@ -88,7 +88,7 @@ def create_record():
     form = RecordForm()
     form.service_id.choices = [(service.id, service.title) for service in current_user.services]
     if form.validate_on_submit():
-        timestamp = datetime.fromisoformat(form.timestamp.data).astimezone(timezone.utc).replace(tzinfo=None)
+        timestamp = datetime.fromisoformat(form.timestamp.data)
         service = Service.query.get(form.service_id.data)
         record = Record(name=form.name.data, phone=form.phone.data, timestamp=timestamp, service=service)
         db.session.add(record)
@@ -172,8 +172,8 @@ def edit_settings():
         flash(message='Настройки успешно сохранены', category='success')
         return redirect(url_for('.settings'))
     elif request.method == 'GET':
+        form.begin_of_the_day.data = current_user.begin_of_the_day
+        form.end_of_the_day.data = current_user.end_of_the_day
         form.amount_of_days.data = current_user.amount_of_days
         form.email.data = current_user.email
-    return render_template('edit_settings.html', title='Изменение настроек', form=form,
-                           begin_of_the_day=datetime.combine(date.today(), current_user.begin_of_the_day),
-                           end_of_the_day=datetime.combine(date.today(), current_user.end_of_the_day))
+    return render_template('edit_settings.html', title='Изменение настроек', form=form)

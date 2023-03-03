@@ -6,7 +6,7 @@
 	<div class="form-box">
 		<div class="form-value">
 
-			<form action="" method="post">
+			<form action="" method="post" name="main">
 				{{ form.hidden_tag() }}
 
 				<h2>Создание записи</h2>
@@ -60,9 +60,16 @@
 		startDate: new Date(),
 		isMobile: true,
 		timepicker: true,
+		minutesStep: 15,
 		dateFormat: 'yyyy-MM-dd',
 		buttons: ['today']
 	});
+	const mainForm = document.forms.main
+	const mainFormTime = mainForm.timestamp
+
+	mainForm.addEventListener("submit", function (event) {
+		mainFormTime.value = moment(mainFormTime.value).utc().format();
+	})
 </script>
 
 {% endblock scripts %}

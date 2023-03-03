@@ -15,6 +15,7 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Имя', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email('Неверный формат почты')])
+    # TODO: избавиться от id
     begin_of_the_day = TimeField('Начало рабочего дня', [DataRequired()], id='begin_of_the_day')
     end_of_the_day = TimeField('Конец рабочего дня', [DataRequired()], id='end_of_the_day')
     amount_of_days = StringField('На сколько дней открыта запись', validators=[DataRequired()])
