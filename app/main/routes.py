@@ -88,7 +88,7 @@ def create_record():
     form = RecordForm()
     form.service_id.choices = [(service.id, service.title) for service in current_user.services]
     if form.validate_on_submit():
-        timestamp = datetime.fromisoformat(form.timestamp.data)
+        timestamp = datetime.strptime(form.timestamp.data, "%Y-%m-%dT%H:%M:%S%fZ")
         service = Service.query.get(form.service_id.data)
         record = Record(name=form.name.data, phone=form.phone.data, timestamp=timestamp, service=service)
         db.session.add(record)

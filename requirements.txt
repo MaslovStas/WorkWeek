@@ -23,6 +23,5 @@ protobuf==3.20.3
 PyJWT==2.6.0
 python-dotenv==0.21.1
 SQLAlchemy==1.4.46
-tzdata==2022.7
 Werkzeug==2.2.2
 WTForms==3.0.1
