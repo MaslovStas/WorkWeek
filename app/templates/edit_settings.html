@@ -10,17 +10,6 @@
 				{{ form.hidden_tag() }}
 
 				<h2>Редактирование<br>настроек</h2>
-
-				<!-- Email -->
-				<div class=" inputbox">
-					<i class="bi bi-envelope"></i>
-					{{ form.email() }}
-					{{ form.email.label }}
-				</div>
-
-				{% for error in form.email.errors %}
-				<span class="error">{{ error }}</span>
-				{% endfor %}
 				<!-- Begin of the day -->
 				<div class="inputbox">
 					{{ form.begin_of_the_day() }}
@@ -49,16 +38,7 @@
 {% block scripts %}
 {{ super() }}
 
+<script src="{{ url_for('static', filename='js/from-UTC-to-local.js') }}"></script>
 <script src="{{ url_for('static', filename='js/from-local-to-UTC.js') }}"></script>
-
-<script>
-	const mainForm = document.forms.main
-	const mainFormBegin = mainForm.begin_of_the_day
-	const mainFormEnd = mainForm.end_of_the_day
-	Array.from([mainFormBegin, mainFormEnd]).forEach(function (item) {
-		let list_time = item.value.split(':');
-		item.value = moment().utc().set({ 'hour': list_time[0], 'minute': list_time[1] }).local().format('HH:mm');
-	});
-</script>
 
 {% endblock scripts %}

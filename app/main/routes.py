@@ -17,7 +17,7 @@ def index():
 @bp.route('/services')
 @login_required
 def services():
-    return render_template('services.html', title='Сервис', services=current_user.services)
+    return render_template('services.html', title='Сервис')
 
 
 @bp.route('/services/create_service', methods=['POST', 'GET'])
@@ -88,7 +88,7 @@ def create_record():
     form = RecordForm()
     form.service_id.choices = [(service.id, service.title) for service in current_user.services]
     if form.validate_on_submit():
-        timestamp = datetime.strptime(form.timestamp.data, "%Y-%m-%dT%H:%M:%S%fZ")
+        timestamp = datetime.strptime(form.timestamp.data, "%Y-%m-%d %H:%M")
         service = Service.query.get(form.service_id.data)
         record = Record(name=form.name.data, phone=form.phone.data, timestamp=timestamp, service=service)
         db.session.add(record)
@@ -162,12 +162,11 @@ def settings():
 @bp.route('/settings/edit_settings', methods=['POST', 'GET'])
 @login_required
 def edit_settings():
-    form = EditingProfile(current_user.email)
+    form = EditingProfile()
     if form.validate_on_submit():
         current_user.begin_of_the_day = form.begin_of_the_day.data
         current_user.end_of_the_day = form.end_of_the_day.data
         current_user.amount_of_days = form.amount_of_days.data
-        current_user.email = form.email.data
         db.session.commit()
         flash(message='Настройки успешно сохранены', category='success')
         return redirect(url_for('.settings'))
@@ -175,5 +174,4 @@ def edit_settings():
         form.begin_of_the_day.data = current_user.begin_of_the_day
         form.end_of_the_day.data = current_user.end_of_the_day
         form.amount_of_days.data = current_user.amount_of_days
-        form.email.data = current_user.email
     return render_template('edit_settings.html', title='Изменение настроек', form=form)

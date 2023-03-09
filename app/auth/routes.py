@@ -42,16 +42,12 @@ def register():
 
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data,
-                    email=form.email.data,
-                    begin_of_the_day=form.begin_of_the_day.data,
-                    end_of_the_day=form.end_of_the_day.data,
-                    amount_of_days=form.amount_of_days.data)
+        user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash(message='Вы успешно зарегистрировались!', category='success')
-        return redirect(url_for('.login'))
+        return redirect(url_for('main.edit_settings'))
 
     return render_template('auth/register.html', title='Зарегистрироваться', form=form)
 

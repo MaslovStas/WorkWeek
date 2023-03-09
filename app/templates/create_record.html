@@ -6,7 +6,7 @@
 	<div class="form-box">
 		<div class="form-value">
 
-			<form action="" method="post" name="main">
+			<form action="" method="post" id="form">
 				{{ form.hidden_tag() }}
 
 				<h2>Создание записи</h2>
@@ -54,6 +54,8 @@
 
 {% block scripts %}
 {{ super() }}
+<script src="{{ url_for('static', filename='js/mask.js') }}"></script>
+<script src="{{ url_for('static', filename='js/form-validate.js') }}"></script>
 
 <script>
 	new AirDatepicker('#datepicker', {

@@ -16,8 +16,7 @@ def choose_service(user_id):
     form.radio.choices = [(s.id, {'title': s.title,
                                   'description': s.description,
                                   'duration': s.str_duration,
-                                  'price': s.price})
-                          for s in user.services.all()]
+                                  'price': s.price}) for s in user.services.all()]
     if form.validate_on_submit():
         return redirect(url_for('.choose_date', service_id=form.radio.data))
 
@@ -32,8 +31,7 @@ def choose_date(service_id):
         session['time'] = request.form['radio']  # сохраняем время
         return redirect(url_for('.confirm', service_id=service.id))
 
-    return render_template('reserve/time.html', title='Выберите дату',
-                           amount_of_days=service.user.amount_of_days,
+    return render_template('reserve/time.html', title='Выберите дату', amount_of_days=service.user.amount_of_days,
                            form=form)
 
 
@@ -55,7 +53,7 @@ def confirm(service_id):
         flash(message='Пожалуйста, выберите время', category='warning')
         return redirect(url_for('.choose_date', service_id=service_id))
 
-    timestamp = datetime.strptime(session['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
+    timestamp = datetime.strptime(session['time'], "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=None)
     service = Service.query.get_or_404(service_id)
     form = ConfirmInformation()
     if form.validate_on_submit():

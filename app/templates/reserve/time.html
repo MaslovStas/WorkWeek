@@ -15,11 +15,12 @@
 				<!-- Date -->
 				<div class="inputbox">
 					<i class="bi bi-calendar"></i>
-					<input type="text" id="datepicker" placeholder="Нажмите, чтобы выбрать дату">
+					<input type="text" id="datepicker" data-amount_of_days="{{ amount_of_days }}"
+						data-url="{{ url_for('.getting_time') }}" placeholder="Нажмите, чтобы выбрать дату">
 				</div>
 				<!-- Time -->
-				<p id="text" class="text-center"></p>
-				<div id="time" class="calendar_time"></div>
+				<p id="statusTime" class="text-center"></p>
+				<div id="listTime" class="calendar_time"></div>
 				<!-- Submit -->
 				<p class="text-center">{{ form.submit(class="btn btn-outline-warning my-button") }}</p>
 			</form>
@@ -32,73 +33,5 @@
 {% block scripts %}
 {{ super() }}
 
-<script>
-	// Делаем кнопку неактивной
-	document.querySelector('#submit').disabled = true;
-	// Получаем service_id из адреса сайта и сохраням блок с списком времени
-	const service_id = window.location.pathname.split('/')[2];
-	const elementText = document.querySelector('#text');
-	const elementTime = document.querySelector('#time');
-
-	function createDictTime(obj) {
-		arr = [];
-		for (time of obj) {
-			let timestamp = new Date(time);
-			arr.push({
-				'label': timestamp.toLocaleTimeString('ru-RU', { hour12: false, timeStyle: 'short' }),
-				'value': timestamp.toISOString()
-			});
-		}
-		return arr;
-	}
-
-	function changeTime(obj) {
-		// Каждый раз делаем кнопку неактивной
-		document.querySelector('#submit').disabled = true;
-		// Создаем список input и label
-		let content = '';
-		obj.forEach(function (item, index) {
-			content += `<input type="radio" id="timeChoice${index}" name="radio" value="${item["value"]}"
-									onclick="document.querySelector('#submit').disabled=false" class="btn-check" autocomplete="off">
-									<label class="btn btn-outline-success" for="timeChoice${index}">${item["label"]}</label>`
-		});
-		elementTime.innerHTML = content;
-	}
-
-	new AirDatepicker('#datepicker', {
-		isMobile: true,
-		autoClose: true,
-		minDate: new Date(),
-		// Маскимальная дата ограничена настройками пользователя
-		maxDate: (new Date()).setDate(new Date().getDate() + {{ amount_of_days| tojson | safe }}),
-		dateFormat: 'yyyy-MM-dd',
-			onSelect({ formattedDate }) {
-		if (formattedDate) {
-			fetch("{{ url_for('.getting_time') }}", {
-				method: 'POST',
-				body: JSON.stringify({ date: formattedDate, service_id: service_id })
-			})
-				.then(response => {
-					if (!response.ok) {
-						throw new Error('Нет связи с сервером');
-					}
-					return response.json();
-				}).then(responseJson => {
-					let list_time = createDictTime(responseJson['time']);
-					changeTime(list_time);
-
-					if (list_time.length==0) {
-						elementText.innerHTML = 'В этот день свободных мест нет';
-					}
-					else {
-						elementText.innerHTML = 'В этот день доступно следующее время:';
-					}
-				}).catch((error) => {
-					elementText.innerHTML = `${error}`;
-				})
-		}
-	}
-	})
-
-</script>
+<script src="{{ url_for('static', filename='js/create-time-list.js') }}"></script>
 {% endblock scripts %}

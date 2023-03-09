@@ -17,7 +17,7 @@
 			</div>
 
 			<ul>
-				{% for service in services %}
+				{% for service in current_user.services %}
 				<li class="mb-0 p-0 alert alert-dismissible text-start">
 					<h4>{{ service.title }}</h4>
 					{% if service.description %}
@@ -25,7 +25,7 @@
 					{% endif %}
 					<p>
 						<i class="bi bi-clock"></i> {{ service.str_duration }} <i class="bi bi-wallet2"></i> {{ service.price }}
-							грн.
+						грн.
 					</p>
 					<a class="btn btn-outline-success"
 						href="{{ url_for('main.update_service', service_id=service.id) }}">Редактировать</a>
@@ -48,8 +48,10 @@
 
 <script>
 	function copyLinkToClipboard() {
-		navigator.clipboard.writeText(document.getElementById('link_copy').innerText);
-		document.getElementById('i-link').className = 'bi bi-check';
+		navigator.clipboard.writeText(document.querySelector('#link_copy').innerText);
+		btnCopy = document.querySelector('#i-link')
+		btnCopy.className = "bi bi-check";
+		setTimeout(() => { btnCopy.className = "bi bi-clipboard2" }, 500);
 	}
 </script>
 

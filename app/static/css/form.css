@@ -16,6 +16,25 @@ section {
 	justify-content: center;
 	align-items: center;
 }
+.form-box::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 20px;
+	background: rgba(51, 51, 51, 0.9) url("/static/images/1493.gif") center / 50px
+		no-repeat;
+	visibility: hidden;
+	opacity: 0;
+	transition: all 0.5s ease 0s;
+}
+
+.form-box._sending::after {
+	visibility: visible;
+	opacity: 1;
+}
 
 h2 {
 	font-size: 2em;
@@ -40,12 +59,12 @@ h2 {
 	color: yellow;
 	font-size: 1em;
 	pointer-events: none;
-	transition: .5s;
+	transition: 0.5s;
 }
 
-input:focus~label,
-input:valid~label,
-input:-webkit-autofill~label {
+input:focus ~ label,
+input:valid ~ label,
+input:-webkit-autofill ~ label {
 	top: -5px;
 }
 

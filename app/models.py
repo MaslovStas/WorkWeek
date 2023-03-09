@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, date, time
 from math import ceil
 
 import jwt
@@ -15,9 +15,9 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    amount_of_days = db.Column(db.Integer)
-    begin_of_the_day = db.Column(db.Time)  # Начало рабочего дня
-    end_of_the_day = db.Column(db.Time)  # Конец рабочего дня
+    amount_of_days = db.Column(db.Integer, default=30)
+    begin_of_the_day = db.Column(db.Time, default=time(8, 0))  # Начало рабочего дня
+    end_of_the_day = db.Column(db.Time, default=time(16, 0))  # Конец рабочего дня
 
     services = db.relationship('Service', backref='user', lazy='dynamic')
     weekends = db.relationship('Weekend', backref='user', lazy='dynamic')

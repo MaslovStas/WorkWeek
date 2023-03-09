@@ -30,15 +30,4 @@ class EditingProfile(FlaskForm):
     begin_of_the_day = TimeField('Начало дня', [DataRequired()])
     end_of_the_day = TimeField('Конец дня', [DataRequired()])
     amount_of_days = StringField('На сколько дней открыта запись', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Сохранить')
-
-    def __init__(self, original_email, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.original_email = original_email
-
-    def validate_email(self, email):
-        if email.data != self.original_email:
-            user = User.query.filter_by(email=self.email.data).first()
-            if user is not None:
-                raise ValidationError('Введите другой Email')
